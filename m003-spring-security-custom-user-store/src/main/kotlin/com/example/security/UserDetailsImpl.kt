@@ -1,16 +1,15 @@
 package com.example.security
 
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
-class UserDetailsImpl(
-    private val username: String,
-    private val password: String,
-    private val rolesAndAuthorities: MutableList<GrantedAuthority>): UserDetails {
+class UserDetailsImpl(user: User): UserDetails {
 
-    constructor(user: User) {
+    private val password: String = user.password
+    private val username: String = user.username
+    private val rolesAndAuthorities: MutableList<GrantedAuthority> = mutableListOf(SimpleGrantedAuthority(user.role))
 
-    }
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return rolesAndAuthorities
     }
