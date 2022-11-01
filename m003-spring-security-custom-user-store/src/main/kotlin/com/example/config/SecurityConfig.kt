@@ -22,15 +22,16 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
             ?.userDetailsService(userDetailsService)
             ?.passwordEncoder(passwordEncoder())
 
-//        auth?.inMemoryAuthentication()
-//            ?.withUser("Admin")
-//            ?.password(passwordEncoder().encode("1"))
-//            ?.roles("Admin")
+        auth?.inMemoryAuthentication()
+            ?.withUser("Admin")
+            ?.password(passwordEncoder().encode("1"))
+            ?.roles("Admin")
     }
 
     override fun configure(http: HttpSecurity?) {
         http?.authorizeRequests()
             ?.mvcMatchers("/hello")?.hasAnyRole("Admin", "USER")
+            ?.mvcMatchers("/user")?.authenticated()
             ?.anyRequest()?.permitAll()
             ?.and()
             ?.csrf()?.disable()
